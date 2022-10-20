@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: todo-list
+springdoc:
+  api-docs:
+    path: /todo-list/docs
+  swagger-ui:
+    path: /todo-list/api-docs/
+server:
+  port: 8400
