@@ -17,7 +17,7 @@ public class MemoryListRepository implements ListRepository {
     @Override
     public ToDoList save(ToDoList toDoList) {
         lists.add(toDoList);
-        ToDoList toDoListSaved = new ToDoList();
+
         toDoList.setId((long) lists.size());
         toDoList.setName(toDoList.getName());
         toDoList.setDescription(toDoList.getDescription());

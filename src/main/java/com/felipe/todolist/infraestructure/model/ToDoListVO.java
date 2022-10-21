@@ -1,13 +1,21 @@
 package com.felipe.todolist.infraestructure.model;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
-import java.util.Optional;
 
 public class ToDoListVO {
 
     private Long id;
+    @NotBlank
+    @Valid
     private String name;
-    private Optional<String> description;
+    @NotBlank
+    @Valid
+    private String description;
+    @NotBlank
+    @Email
     private String user;
     private LocalDate date;
 
@@ -27,11 +35,11 @@ public class ToDoListVO {
         this.name = name;
     }
 
-    public Optional<String> getDescription() {
+    public String getDescription() {
         return description;
     }
 
-    public void setDescription(Optional<String> description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 

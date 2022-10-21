@@ -19,17 +19,11 @@ public class ListController {
     private ListCreator listCreator;
 
     @PostMapping("/lists")
-    public ResponseEntity create(@RequestBody ToDoListVO toDoListVO){
-        try{
-            ToDoList toDoListToCreate = ToDoListMapper.toDoList(toDoListVO);
-            ToDoList toDoListCreated = listCreator.create(toDoListToCreate);
-            ToDoListVO toDoListVOCreated = ToDoListMapper.toDoListVo(toDoListCreated);
-            return new ResponseEntity<>(toDoListVOCreated, HttpStatus.CREATED);
-        } catch (IllegalArgumentException e){
-            return new ResponseEntity(new ToDoListError("Solicitud errada", e.getMessage().split(System.lineSeparator())),
-                    HttpStatus.BAD_REQUEST);
-        } catch (Exception e){
-            return new ResponseEntity<>(new ToDoListError("Error inesperado", new String[]{e.getMessage()}), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    public ResponseEntity<?> create(@RequestBody ToDoListVO toDoListVO) {
+
+        ToDoList toDoListToCreate = ToDoListMapper.toDoList(toDoListVO);
+        ToDoList toDoListCreated = listCreator.create(toDoListToCreate);
+        ToDoListVO toDoListVOCreated = ToDoListMapper.toDoListVo(toDoListCreated);
+        return new ResponseEntity<>(toDoListVOCreated, HttpStatus.CREATED);
     }
 }

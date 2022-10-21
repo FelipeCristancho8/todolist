@@ -4,6 +4,7 @@ import com.felipe.todolist.domain.lists.ListCreator;
 import com.felipe.todolist.domain.lists.ListCreatorDefault;
 import com.felipe.todolist.domain.persistence.ListRepository;
 import com.felipe.todolist.infraestructure.persistence.MemoryListRepository;
+import com.felipe.todolist.infraestructure.persistence.MySqlListRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -12,7 +13,7 @@ public class ListsConfiguration {
 
     @Bean
     public ListRepository providesListRepositoryInstance(){
-        return new MemoryListRepository();
+        return new MySqlListRepository();
     }
 
     @Bean

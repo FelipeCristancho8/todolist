@@ -1,12 +1,12 @@
 package com.felipe.todolist.domain.model;
 
-import java.util.Optional;
+import java.io.Serializable;
 
-public class ToDoList {
+public class ToDoList implements Serializable {
 
     private Long id;
     private String name;
-    private Optional<String> description;
+    private String description;
     private String user;
 
     public Long getId() {
@@ -25,11 +25,11 @@ public class ToDoList {
         this.name = name;
     }
 
-    public Optional<String> getDescription() {
+    public String getDescription() {
         return description;
     }
 
-    public void setDescription(Optional<String> description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 

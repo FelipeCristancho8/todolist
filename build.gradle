@@ -55,6 +55,12 @@ dependencies {
     testImplementation "io.rest-assured:xml-path:${restAssureVersion}"
     testImplementation "org.mockito:mockito-core:${mockitoVersion}"
     testImplementation "org.mockito:mockito-inline:${mockitoVersion}"
+
+    // https://mvnrepository.com/artifact/mysql/mysql-connector-java
+    implementation 'mysql:mysql-connector-java:8.0.31'
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-jdbc
+    implementation 'org.springframework.boot:spring-boot-starter-data-jdbc:2.7.5'
+
 }
 
 test {
