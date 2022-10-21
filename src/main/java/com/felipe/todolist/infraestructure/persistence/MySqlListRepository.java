@@ -14,24 +14,20 @@ import java.util.Objects;
 
 public class MySqlListRepository implements ListRepository {
 
+    private static final String SQL_CREAR_TAREA = "INSERT INTO todo_list (name, description, user) values (?,?,?)";
     @Autowired
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
 
-    /*@Override
-    public ToDoList save(ToDoList toDoList) {
-        int result = jdbcTemplate.update("INSERT INTO todo_list (name, description, user) values (?,?,?)",
-                toDoList.getName(), toDoList.getDescription(), toDoList.getUser());
-        System.out.println(result);
-        return toDoList;
-    }*/
+    public MySqlListRepository(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
 
     @Override
     public ToDoList save(ToDoList toDoList) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
-            PreparedStatement ps = connection
-                                    .prepareStatement("INSERT INTO todo_list (name, description, user) values (?,?,?)",
-                                    Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement ps = connection.prepareStatement(SQL_CREAR_TAREA, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, toDoList.getName());
             ps.setString(2, toDoList.getDescription());
             ps.setString(3, toDoList.getUser());
