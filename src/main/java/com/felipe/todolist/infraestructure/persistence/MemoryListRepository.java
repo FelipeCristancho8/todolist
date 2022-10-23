@@ -24,4 +24,24 @@ public class MemoryListRepository implements ListRepository {
         toDoList.setUser(toDoList.getUser());
         return toDoList;
     }
+
+    @Override
+    public void delete(Long id) {
+
+    }
+
+    @Override
+    public boolean existsById(Long id) {
+        return false;
+    }
+
+    @Override
+    public ToDoList update(ToDoList toDoList) {
+        return null;
+    }
+
+    @Override
+    public ToDoList findById(Long id) {
+        return null;
+    }
 }

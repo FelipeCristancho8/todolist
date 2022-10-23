@@ -1,7 +1,7 @@
 package com.felipe.todolist.infraestructure.config;
 
-import com.felipe.todolist.domain.lists.ListCreator;
-import com.felipe.todolist.domain.lists.ListCreatorDefault;
+import com.felipe.todolist.domain.lists.ListMediator;
+import com.felipe.todolist.domain.lists.ListMediatorDefault;
 import com.felipe.todolist.domain.persistence.ListRepository;
 import com.felipe.todolist.infraestructure.persistence.MySqlListRepository;
 import org.springframework.context.annotation.Bean;
@@ -17,7 +17,7 @@ public class ListsConfiguration {
     }
 
     @Bean
-    public ListCreator providesListCreatorInstance(ListRepository listRepository){
-        return new ListCreatorDefault(listRepository);
+    public ListMediator providesListMediatorInstance(ListRepository listRepository){
+        return new ListMediatorDefault(listRepository);
     }
 }

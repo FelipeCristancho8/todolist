@@ -37,6 +37,7 @@ repositories {
 
 ext {
     openapiUIVersion = '1.6.11'
+    lombokVersion = '1.18.24'
 
     junitVersion = '5.9.0'
     restAssureVersion = '5.2.0'
@@ -48,6 +49,9 @@ dependencies {
 
     implementation "org.springdoc:springdoc-openapi-ui:${openapiUIVersion}"
 
+    compileOnly "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation "org.junit.jupiter:junit-jupiter-api:${junitVersion}"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
@@ -55,6 +59,7 @@ dependencies {
     testImplementation "io.rest-assured:xml-path:${restAssureVersion}"
     testImplementation "org.mockito:mockito-core:${mockitoVersion}"
     testImplementation "org.mockito:mockito-inline:${mockitoVersion}"
+    testImplementation "io.rest-assured:spring-mock-mvc:${restAssureVersion}"
 
     // https://mvnrepository.com/artifact/mysql/mysql-connector-java
     implementation 'mysql:mysql-connector-java:8.0.31'
