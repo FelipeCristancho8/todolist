@@ -1,7 +1,6 @@
 package com.felipe.todolist.infraestructure.exception;
 
 import com.felipe.todolist.infraestructure.model.ToDoListError;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -19,7 +18,7 @@ public class RestExceptionHandler {
     }
 
     @ExceptionHandler(NoSuchElementException.class)
-    public ResponseEntity<ToDoListError> noSuchElementExceptionHandler(NoSuchElementException e){
+    public ResponseEntity noSuchElementExceptionHandler(NoSuchElementException e){
         return new ResponseEntity(new ToDoListError("Solicitud errada", e.getMessage().split(System.lineSeparator())),
                 HttpStatus.NOT_FOUND);
     }

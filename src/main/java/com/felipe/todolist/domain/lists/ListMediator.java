@@ -9,4 +9,6 @@ public interface ListMediator {
     void delete(Long id);
 
     ToDoList findById(Long id);
+
+    ToDoList update(ToDoList toDoList);
 }

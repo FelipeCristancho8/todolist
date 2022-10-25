@@ -53,8 +53,14 @@ public class MySqlListRepository implements ListRepository {
 
     @Override
     public ToDoList update(ToDoList toDoList) {
-        //TODO
-        return null;
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(SQL_UPDATE_BY_ID, Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, toDoList.getName());
+            ps.setString(2, toDoList.getDescription());
+            ps.setLong(3, toDoList.getId());
+            return ps;
+        });
+        return toDoList;
     }
 
     @Override

@@ -1,7 +1,5 @@
 package com.felipe.todolist.domain.util;
 
-import com.felipe.todolist.domain.model.ToDoList;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -23,5 +21,9 @@ public class StringUtils {
         Pattern pattern = Pattern.compile(reg);
         Matcher mather = pattern.matcher(email);
         return !mather.find();
+    }
+
+    public static boolean isNotNull(String value){
+        return value != null;
     }
 }

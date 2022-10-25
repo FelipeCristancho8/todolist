@@ -18,6 +18,19 @@ jacoco {
     toolVersion = "0.8.8"
 }
 
+jacocoTestReport {
+    afterEvaluate {
+        classDirectories.from = files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: [
+                    'com/felipe/todolist/infraestructure/config/**',
+                    'com/felipe/todolist/infraestructure/model/**',
+                    'com/felipe/todolist/domain/model/**',
+                    'com/felipe/todolist/TodoListApp*'
+            ])
+        })
+    }
+}
+
 configurations {
     developmentOnly
     runtimeClasspath {
