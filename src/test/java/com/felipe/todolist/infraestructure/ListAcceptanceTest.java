@@ -20,6 +20,7 @@ import static io.restassured.module.mockmvc.RestAssuredMockMvc.webAppContextSetu
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.openMocks;
 
@@ -85,5 +86,94 @@ public class ListAcceptanceTest {
         .then()
                 .statusCode(is(400))
                 .body(containsString("Name is empty"));
+    }
+
+    @Test
+    void shouldFindAListSuccesful() {
+        when(repository.existsById(100L)).thenReturn(true);
+        when(repository.findById(100L)).thenReturn(toDoListOut);
+        ToDoListVO toDoListVO = ToDoListVO.builder()
+                .name("Cosas por hacer")
+                .description("Cosas por hacer antes del 31 de octubre")
+                .user("felipe@gmail.com")
+                .build();
+        given().contentType(ContentType.JSON)
+                .body(toDoListVO)
+                .when()
+                .get(String.format("http://localhost:%s/lists/100", port))
+                .then()
+                .statusCode(200)
+                .body(containsString("100"))
+                .body(containsString("Cosas por hacer"));
+    }
+
+    @Test
+    void shouldThrowNoSuchElementExceptionWhenFindByIdAndToDoListNotExists() {
+        when(repository.existsById(anyLong())).thenReturn(false);
+        when(repository.findById(100L)).thenReturn(toDoListOut);
+        ToDoListVO toDoListVO = ToDoListVO.builder()
+                .name("Cosas por hacer")
+                .description("Cosas por hacer antes del 31 de octubre")
+                .build();
+        given().contentType(ContentType.JSON)
+                .body(toDoListVO)
+                .when()
+                .patch(String.format("http://localhost:%s/lists/100", port))
+                .then()
+                .statusCode(404)
+                .body(containsString("Solicitud errada"));
+    }
+
+    @Test
+    void shouldUpdateAListSuccesful() {
+        when(repository.existsById(100L)).thenReturn(true);
+        when(repository.findById(100L)).thenReturn(toDoListOut);
+        when(repository.update(any(ToDoList.class))).thenReturn(toDoListOut);
+        ToDoListVO toDoListVO = ToDoListVO.builder()
+                .name("Cosas por hacer")
+                .description("Cosas por hacer antes del 31 de octubre")
+                .build();
+        given().contentType(ContentType.JSON)
+                .body(toDoListVO)
+                .when()
+                .patch(String.format("http://localhost:%s/lists/100", port))
+        .then()
+                .statusCode(200)
+                .body(containsString("100"));
+    }
+
+    @Test
+    void shouldThrowIllegalArgumentExceptionWhenNameIsNull() {
+        when(repository.existsById(100L)).thenReturn(true);
+        when(repository.findById(100L)).thenReturn(toDoListOut);
+        when(repository.update(any(ToDoList.class))).thenReturn(toDoListOut);
+        ToDoListVO toDoListVO = ToDoListVO.builder()
+                .name(null)
+                .description("Cosas por hacer antes del 31 de octubre")
+                .build();
+        given().contentType(ContentType.JSON)
+                .body(toDoListVO)
+                .when()
+                .patch(String.format("http://localhost:%s/lists/100", port))
+                .then()
+                .statusCode(400)
+                .body(containsString("Name is empty"));
+    }
+
+    @Test
+    void shouldThrowNoSuchElementExceptionWhenUpdateAndToDoListNotExists() {
+        when(repository.existsById(anyLong())).thenReturn(false);
+        when(repository.findById(100L)).thenReturn(toDoListOut);
+        when(repository.update(any(ToDoList.class))).thenReturn(toDoListOut);
+        ToDoListVO toDoListVO = ToDoListVO.builder()
+                .name("Cosas por hacer")
+                .description("Cosas por hacer antes del 31 de octubre")
+                .build();
+        given().contentType(ContentType.JSON)
+                .body(toDoListVO)
+                .when()
+                .patch(String.format("http://localhost:%s/lists/100", port))
+                .then()
+                .statusCode(404);
     }
 }
