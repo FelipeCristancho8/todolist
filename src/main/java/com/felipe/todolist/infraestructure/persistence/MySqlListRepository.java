@@ -1,6 +1,5 @@
 package com.felipe.todolist.infraestructure.persistence;
 
-import com.felipe.todolist.domain.model.Item;
 import com.felipe.todolist.domain.model.ToDoList;
 import com.felipe.todolist.domain.persistence.ListRepository;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -11,7 +10,6 @@ import org.springframework.jdbc.support.KeyHolder;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
-import java.util.List;
 import java.util.Objects;
 
 
@@ -23,7 +21,6 @@ public class MySqlListRepository implements ListRepository {
     private static final String SQL_UPDATE_BY_ID = "UPDATE todo_list SET name = ?, description = ? WHERE id = ?";
     private static final String SQL_FIND_BY_ID = "SELECT id, name, description, user FROM todo_list WHERE id = ?";
 
-    private static final String SQl_FIND_ITEMS_BY_LIST_ID = "SELECT id, description, finished, created_at as createdAt FROM items where list_id = ?";
 
     private final JdbcTemplate jdbcTemplate;
 

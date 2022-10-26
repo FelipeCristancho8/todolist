@@ -7,6 +7,9 @@ import com.felipe.todolist.domain.persistence.ListRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
@@ -60,9 +63,11 @@ class ListMediatorDefaultTest {
             verify(listRepository).save(any(ToDoList.class));
         }
 
-        @Test
-        void shouldThrowIllegalArgumentExceptionWhenNameIsNull(){
-            toDoListIn.setName(null);
+        @ParameterizedTest
+        @NullSource
+        @ValueSource(strings = {""})
+        void shouldThrowIllegalArgumentExceptionWhenNameIsNull(String arg){
+            toDoListIn.setName(arg);
             ListMediator mediator = new ListMediatorDefault(listRepository, itemRepository, new ListValidator());
 
             IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
@@ -72,33 +77,11 @@ class ListMediatorDefaultTest {
             verify(listRepository, times(0)).save(any(ToDoList.class));
         }
 
-        @Test
-        void shouldThrowIllegalArgumentExceptionWhenNameIsEmpty(){
-            toDoListIn.setName("");
-            ListMediator mediator = new ListMediatorDefault(listRepository, itemRepository, new ListValidator());
-
-            IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
-                            mediator.create(toDoListIn),
-                    "Se esperaba un IllegalArgumentException cuando el campo name es nulo pero no fue lanzada");
-            assertTrue(exception.getMessage().contains("Name is empty"));
-            verify(listRepository, times(0)).save(any(ToDoList.class));
-        }
-
-        @Test
-        void shouldThrowIllegalArgumentExceptionWhenUserIsNull(){
-            toDoListIn.setUser(null);
-            ListMediator mediator = new ListMediatorDefault(listRepository, itemRepository, new ListValidator());
-
-            IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
-                            mediator.create(toDoListIn),
-                    "Se esperaba un IllegalArgumentException cuando el campo name es nulo pero no fue lanzada");
-            assertTrue(exception.getMessage().contains("User is empty"));
-            verify(listRepository, times(0)).save(any(ToDoList.class));
-        }
-
-        @Test
-        void shouldThrowIllegalArgumentExceptionWhenUserIsEmpty(){
-            toDoListIn.setUser("");
+        @ParameterizedTest
+        @NullSource
+        @ValueSource(strings = {""})
+        void shouldThrowIllegalArgumentExceptionWhenUserIsNull(String arg){
+            toDoListIn.setUser(arg);
             ListMediator mediator = new ListMediatorDefault(listRepository, itemRepository, new ListValidator());
 
             IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
@@ -229,20 +212,11 @@ class ListMediatorDefaultTest {
             verify(repository).update(any(ToDoList.class));
         }
 
-        @Test
-        void shouldThrowIllegalArgumentExceptionWhenNameIsNull(){
-            toDoListIn.setName(null);
-
-            IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
-                            mediator.update(toDoListIn),
-                    "Se esperaba un IllegalArgumentException cuando el campo name es nulo pero no fue lanzada");
-            assertTrue(exception.getMessage().contains("Name is empty"));
-            verify(repository, times(0)).save(any(ToDoList.class));
-        }
-
-        @Test
-        void shouldThrowIllegalArgumentExceptionWhenNameIsEmpty(){
-            toDoListIn.setName("");
+        @ParameterizedTest
+        @NullSource
+        @ValueSource(strings = {""})
+        void shouldThrowIllegalArgumentExceptionWhenNameIsNullOrEmpty(String arg){
+            toDoListIn.setName(arg);
 
             IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
                             mediator.update(toDoListIn),
