@@ -176,4 +176,26 @@ public class ListAcceptanceTest {
                 .then()
                 .statusCode(404);
     }
+
+    @Test
+    void shouldDeleteAListSuccesful() {
+        when(repository.existsById(100L)).thenReturn(true);
+        given().contentType(ContentType.JSON)
+                .when()
+                .delete(String.format("http://localhost:%s/lists/100", port))
+        .then()
+                .statusCode(200);
+    }
+
+    @Test
+    void shouldThrowNoSuchElementExceptionWhenDeleteAndToDoListNotExists() {
+        when(repository.existsById(anyLong())).thenReturn(false);
+
+        given().contentType(ContentType.JSON)
+                .when()
+                .delete(String.format("http://localhost:%s/lists/100", port))
+                .then()
+                .statusCode(404)
+                .body(containsString("Element not found"));
+    }
 }

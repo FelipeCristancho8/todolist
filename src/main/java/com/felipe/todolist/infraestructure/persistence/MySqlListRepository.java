@@ -69,15 +69,8 @@ public class MySqlListRepository implements ListRepository {
 
     @Override
     public ToDoList findById(Long id) {
-        //se debe manejar la excepcion aqui?
-        //Donde se deberia hacer la transformacion, directamente en el dominio o realizar un dto que mapee sin el objeto lista
-        // dentro del objeto item
-        //hacerlo en un mediador
         try{
-            ToDoList toDoList = jdbcTemplate.queryForObject(SQL_FIND_BY_ID, BeanPropertyRowMapper.newInstance(ToDoList.class), id);
-            List<Item> items = jdbcTemplate.query(SQl_FIND_ITEMS_BY_LIST_ID, BeanPropertyRowMapper.newInstance(Item.class), id);
-            toDoList.addItems(items);
-            return toDoList;
+            return jdbcTemplate.queryForObject(SQL_FIND_BY_ID, BeanPropertyRowMapper.newInstance(ToDoList.class), id);
         }catch (EmptyResultDataAccessException e){
             return null;
         }

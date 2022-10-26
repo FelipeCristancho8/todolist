@@ -1,17 +1,23 @@
 package com.felipe.todolist.domain.lists;
 
+import com.felipe.todolist.domain.model.Item;
 import com.felipe.todolist.domain.model.ToDoList;
+import com.felipe.todolist.domain.persistence.ItemRepository;
 import com.felipe.todolist.domain.persistence.ListRepository;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 public class ListMediatorDefault implements ListMediator {
     private static final String ELEMENT_NOT_FOUND = "Element not found";
     private final ListRepository listRepository;
+
+    private final ItemRepository itemRepository;
     private final ListValidator listValidator;
 
-    public ListMediatorDefault(ListRepository listRepository, ListValidator listValidator) {
+    public ListMediatorDefault(ListRepository listRepository, ItemRepository repository, ListValidator listValidator) {
         this.listRepository = listRepository;
+        this.itemRepository = repository;
         this.listValidator = listValidator;
     }
 
@@ -30,8 +36,11 @@ public class ListMediatorDefault implements ListMediator {
     @Override
     public ToDoList findById(Long id) {
         validateExistsListById(id);
-        //setear items
-        return this.listRepository.findById(id);
+        ToDoList foundTodoList = this.listRepository.findById(id);
+        List<Item> itemsOfTodoList = this.itemRepository.findItemsByToDoListId(id);
+        foundTodoList.addItems(itemsOfTodoList);
+
+        return foundTodoList;
     }
 
     @Override

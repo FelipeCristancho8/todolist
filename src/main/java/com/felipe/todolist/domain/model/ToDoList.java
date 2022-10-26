@@ -19,6 +19,7 @@ public class ToDoList implements Serializable {
     private String name;
     private String description;
     private String user;
+    @Builder.Default
     private List<Item> items = new ArrayList<>();
 
     public void addItems(List<Item> items){
