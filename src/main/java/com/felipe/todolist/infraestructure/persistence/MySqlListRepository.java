@@ -1,5 +1,6 @@
 package com.felipe.todolist.infraestructure.persistence;
 
+import com.felipe.todolist.domain.model.Item;
 import com.felipe.todolist.domain.model.ToDoList;
 import com.felipe.todolist.domain.persistence.ListRepository;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -10,6 +11,7 @@ import org.springframework.jdbc.support.KeyHolder;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.util.List;
 import java.util.Objects;
 
 
@@ -20,6 +22,8 @@ public class MySqlListRepository implements ListRepository {
     private static final String SQL_EXISTS_BY_ID = "SELECT COUNT(1) FROM todo_list WHERE id = ?";
     private static final String SQL_UPDATE_BY_ID = "UPDATE todo_list SET name = ?, description = ? WHERE id = ?";
     private static final String SQL_FIND_BY_ID = "SELECT id, name, description, user FROM todo_list WHERE id = ?";
+
+    private static final String SQl_FIND_ITEMS_BY_LIST_ID = "SELECT id, description, finished, created_at as createdAt FROM items where list_id = ?";
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -66,8 +70,13 @@ public class MySqlListRepository implements ListRepository {
     @Override
     public ToDoList findById(Long id) {
         //se debe manejar la excepcion aqui?
+        //Donde se deberia hacer la transformacion, directamente en el dominio o realizar un dto que mapee sin el objeto lista
+        // dentro del objeto item
         try{
-            return jdbcTemplate.queryForObject(SQL_FIND_BY_ID, BeanPropertyRowMapper.newInstance(ToDoList.class), id);
+            List<Item> items = jdbcTemplate.query(SQl_FIND_ITEMS_BY_LIST_ID, new BeanPropertyRowMapper<>(Item.class), id);
+            ToDoList toDoList = jdbcTemplate.queryForObject(SQL_FIND_BY_ID, BeanPropertyRowMapper.newInstance(ToDoList.class), id);
+            toDoList.addItems(items);
+            return toDoList;
         }catch (EmptyResultDataAccessException e){
             return null;
         }

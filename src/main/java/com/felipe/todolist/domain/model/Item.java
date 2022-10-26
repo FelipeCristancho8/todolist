@@ -6,22 +6,18 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ToDoList implements Serializable {
+public class Item implements Serializable {
 
     private Long id;
-    private String name;
     private String description;
-    private String user;
-    private List<Item> items = new ArrayList<>();
-
-    public void addItems(List<Item> items){
-        this.items.addAll(items);
-    }
+    private boolean finished;
+    private LocalDateTime createdAt;
+    private ToDoList toDoList;
 }
