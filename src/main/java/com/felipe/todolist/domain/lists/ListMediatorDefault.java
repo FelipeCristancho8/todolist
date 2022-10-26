@@ -6,6 +6,7 @@ import com.felipe.todolist.domain.persistence.ListRepository;
 import java.util.NoSuchElementException;
 
 public class ListMediatorDefault implements ListMediator {
+    private static final String ELEMENT_NOT_FOUND = "Element not found";
     private final ListRepository listRepository;
     private final ListValidator listValidator;
 
@@ -29,6 +30,7 @@ public class ListMediatorDefault implements ListMediator {
     @Override
     public ToDoList findById(Long id) {
         validateExistsListById(id);
+        //setear items
         return this.listRepository.findById(id);
     }
 
@@ -44,15 +46,19 @@ public class ListMediatorDefault implements ListMediator {
         StringBuilder details = new StringBuilder();
         boolean exists = this.listRepository.existsById(id);
         if(!exists){
-            details.append("Element not found");
+            details.append(ELEMENT_NOT_FOUND);
             throw new NoSuchElementException(details.toString());
         }
     }
 
-    private ToDoList prepareToUpdate(ToDoList toDoListInput, ToDoList toDoListOutput){
-        toDoListOutput.setName(toDoListInput.getName());
-        if(toDoListInput.getDescription() != null)
-            toDoListOutput.setDescription(toDoListInput.getDescription());
-        return toDoListOutput;
+    private ToDoList prepareToUpdate(ToDoList toDoListToUpdate, ToDoList toDoListSaved){
+        ToDoList preparedToDoList = ToDoList.builder()
+                .id(toDoListSaved.getId())
+                .user(toDoListSaved.getUser()).build();
+        preparedToDoList.setName(toDoListToUpdate.getName());
+
+        if(toDoListToUpdate.getDescription() != null)
+            preparedToDoList.setDescription(toDoListToUpdate.getDescription());
+        return preparedToDoList;
     }
 }

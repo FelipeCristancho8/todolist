@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -19,5 +18,4 @@ public class Item implements Serializable {
     private String description;
     private boolean finished;
     private LocalDateTime createdAt;
-    private ToDoList toDoList;
 }
