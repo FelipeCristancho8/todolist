@@ -2,9 +2,10 @@ package com.felipe.todolist.infraestructure.controllers;
 
 import com.felipe.todolist.domain.lists.ListMediator;
 import com.felipe.todolist.domain.model.ToDoList;
-import com.felipe.todolist.infraestructure.mappers.ToDoListMapper;
+import com.felipe.todolist.infraestructure.mappers.ListMapper;
 import com.felipe.todolist.infraestructure.model.ToDoListBasicVO;
 import com.felipe.todolist.infraestructure.model.ToDoListVO;
+import com.felipe.todolist.infraestructure.model.ToDoListWithDateVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,13 +17,16 @@ public class ListController {
     @Autowired
     private ListMediator listMediator;
 
-    @PostMapping("/lists")
-    public ResponseEntity<ToDoListVO> create(@RequestBody ToDoListVO toDoListVO) {
+    @Autowired
+    private ListMapper listMapper;
 
-        ToDoList toDoListToCreate = ToDoListMapper.toDoList(toDoListVO);
+    @PostMapping("/lists")
+    public ResponseEntity<ToDoListWithDateVO> create(@RequestBody ToDoListWithDateVO toDoListWithDateVO) {
+
+        ToDoList toDoListToCreate = listMapper.todoListVoToToDoList(toDoListWithDateVO);
         ToDoList toDoListCreated = listMediator.create(toDoListToCreate);
-        ToDoListVO toDoListVOCreated = ToDoListMapper.toDoListVoWithDate(toDoListCreated);
-        return new ResponseEntity<>(toDoListVOCreated, HttpStatus.CREATED);
+        ToDoListWithDateVO toDoListWithDateVOCreated = listMapper.todoListTotodoListVoWithDate(toDoListCreated);
+        return new ResponseEntity<>(toDoListWithDateVOCreated, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/lists/{id}")
@@ -31,17 +35,19 @@ public class ListController {
     }
 
     @GetMapping("/lists/{id}")
-    public ResponseEntity<?> findById(@PathVariable Long id){
-        return new ResponseEntity<>(listMediator.findById(id), HttpStatus.OK);
+    public ResponseEntity<ToDoListVO> findById(@PathVariable Long id){
+        ToDoList foundTodoList = listMediator.findById(id);
+        ToDoListVO foundTodoListVO = listMapper.todoListToTodoListVo(foundTodoList);
+        return new ResponseEntity<>(foundTodoListVO, HttpStatus.OK);
     }
 
     @PatchMapping("/lists/{id}")
-    public ResponseEntity<ToDoListVO> update(@RequestBody ToDoListBasicVO toDoListBasicVO, @PathVariable Long id){
-        ToDoList toDoListToUpdate = ToDoListMapper.toDoListBasictoDoList(toDoListBasicVO);
+    public ResponseEntity<ToDoListWithDateVO> update(@RequestBody ToDoListBasicVO toDoListBasicVO, @PathVariable Long id){
+        ToDoList toDoListToUpdate = listMapper.todoListBasicToTodoList(toDoListBasicVO);
         toDoListToUpdate.setId(id);
         ToDoList toDoListCreated = listMediator.update(toDoListToUpdate);
-        ToDoListVO toDoListVOCreated = ToDoListMapper.toDoListVoWithDate(toDoListCreated);
-        return new ResponseEntity<>(toDoListVOCreated, HttpStatus.OK);
+        ToDoListWithDateVO toDoListWithDateVOCreated = listMapper.todoListTotodoListVoWithDate(toDoListCreated);
+        return new ResponseEntity<>(toDoListWithDateVOCreated, HttpStatus.OK);
     }
 
 }

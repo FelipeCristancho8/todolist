@@ -2,29 +2,33 @@ package com.felipe.todolist.infraestructure.mappers;
 
 import com.felipe.todolist.domain.model.ToDoList;
 import com.felipe.todolist.infraestructure.model.ToDoListBasicVO;
-import com.felipe.todolist.infraestructure.model.ToDoListVO;
+import com.felipe.todolist.infraestructure.model.ToDoListWithDateVO;
 
 import java.time.LocalDate;
 
 public class ToDoListMapper {
 
-    public static ToDoList toDoList(ToDoListVO toDoListVO){
+    private ToDoListMapper() {
+        throw new IllegalStateException("Utility class");
+    }
+
+    public static ToDoList toDoList(ToDoListWithDateVO toDoListWithDateVO){
         ToDoList toDoList = new ToDoList();
-        toDoList.setId(toDoListVO.getId());
-        toDoList.setName(toDoListVO.getName());
-        toDoList.setDescription(toDoListVO.getDescription());
-        toDoList.setUser(toDoListVO.getUser());
+        toDoList.setId(toDoListWithDateVO.getId());
+        toDoList.setName(toDoListWithDateVO.getName());
+        toDoList.setDescription(toDoListWithDateVO.getDescription());
+        toDoList.setUser(toDoListWithDateVO.getUser());
         return toDoList;
     }
 
-    public static ToDoListVO toDoListVoWithDate(ToDoList toDoList){
-        ToDoListVO toDoListVO = new ToDoListVO();
-        toDoListVO.setId(toDoList.getId());
-        toDoListVO.setName(toDoList.getName());
-        toDoListVO.setDescription(toDoList.getDescription());
-        toDoListVO.setUser(toDoList.getUser());
-        toDoListVO.setDate(LocalDate.now());
-        return toDoListVO;
+    public static ToDoListWithDateVO toDoListVoWithDate(ToDoList toDoList){
+        ToDoListWithDateVO toDoListWithDateVO = new ToDoListWithDateVO();
+        toDoListWithDateVO.setId(toDoList.getId());
+        toDoListWithDateVO.setName(toDoList.getName());
+        toDoListWithDateVO.setDescription(toDoList.getDescription());
+        toDoListWithDateVO.setUser(toDoList.getUser());
+        toDoListWithDateVO.setDate(LocalDate.now());
+        return toDoListWithDateVO;
     }
 
     public static ToDoList toDoListBasictoDoList(ToDoListBasicVO toDoListBasicVO){

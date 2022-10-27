@@ -3,7 +3,7 @@ package com.felipe.todolist.infraestructure;
 import com.felipe.todolist.domain.model.ToDoList;
 import com.felipe.todolist.domain.persistence.ListRepository;
 import com.felipe.todolist.infraestructure.controllers.ListController;
-import com.felipe.todolist.infraestructure.model.ToDoListVO;
+import com.felipe.todolist.infraestructure.model.ToDoListWithDateVO;
 import io.restassured.http.ContentType;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import org.junit.jupiter.api.BeforeEach;
@@ -57,13 +57,13 @@ class ListAcceptanceTest {
 
     @Test
     void shouldCreateAListSuccesful() {
-        ToDoListVO toDoListVO = ToDoListVO.builder()
+        ToDoListWithDateVO toDoListWithDateVO = ToDoListWithDateVO.builder()
                 .name("Cosas por hacer")
                 .description("Cosas por hacer antes del 31 de octubre")
                 .user("felipe@gmail.com")
                 .build();
         given().contentType(ContentType.JSON)
-                .body(toDoListVO)
+                .body(toDoListWithDateVO)
         .when()
                 .post(String.format("http://localhost:%s/lists", port))
         .then()
@@ -74,13 +74,13 @@ class ListAcceptanceTest {
 
     @Test
     void shouldCreateAListAndReturnStatusCode400() {
-        ToDoListVO toDoListVO = ToDoListVO.builder()
+        ToDoListWithDateVO toDoListWithDateVO = ToDoListWithDateVO.builder()
                 .name(null)
                 .description("Cosas por hacer antes del 31 de octubre")
                 .user("felipe@gmail.com")
                 .build();
         given().contentType(ContentType.JSON)
-                .body(toDoListVO)
+                .body(toDoListWithDateVO)
         .when()
                 .post(String.format("http://localhost:%s/lists", port))
         .then()
@@ -92,13 +92,13 @@ class ListAcceptanceTest {
     void shouldFindAListSuccesful() {
         when(repository.existsById(100L)).thenReturn(true);
         when(repository.findById(100L)).thenReturn(toDoListOut);
-        ToDoListVO toDoListVO = ToDoListVO.builder()
+        ToDoListWithDateVO toDoListWithDateVO = ToDoListWithDateVO.builder()
                 .name("Cosas por hacer")
                 .description("Cosas por hacer antes del 31 de octubre")
                 .user("felipe@gmail.com")
                 .build();
         given().contentType(ContentType.JSON)
-                .body(toDoListVO)
+                .body(toDoListWithDateVO)
                 .when()
                 .get(String.format("http://localhost:%s/lists/100", port))
                 .then()
@@ -111,12 +111,12 @@ class ListAcceptanceTest {
     void shouldThrowNoSuchElementExceptionWhenFindByIdAndToDoListNotExists() {
         when(repository.existsById(anyLong())).thenReturn(false);
         when(repository.findById(100L)).thenReturn(toDoListOut);
-        ToDoListVO toDoListVO = ToDoListVO.builder()
+        ToDoListWithDateVO toDoListWithDateVO = ToDoListWithDateVO.builder()
                 .name("Cosas por hacer")
                 .description("Cosas por hacer antes del 31 de octubre")
                 .build();
         given().contentType(ContentType.JSON)
-                .body(toDoListVO)
+                .body(toDoListWithDateVO)
                 .when()
                 .patch(String.format("http://localhost:%s/lists/100", port))
                 .then()
@@ -129,12 +129,12 @@ class ListAcceptanceTest {
         when(repository.existsById(100L)).thenReturn(true);
         when(repository.findById(100L)).thenReturn(toDoListOut);
         when(repository.update(any(ToDoList.class))).thenReturn(toDoListOut);
-        ToDoListVO toDoListVO = ToDoListVO.builder()
+        ToDoListWithDateVO toDoListWithDateVO = ToDoListWithDateVO.builder()
                 .name("Cosas por hacer")
                 .description("Cosas por hacer antes del 31 de octubre")
                 .build();
         given().contentType(ContentType.JSON)
-                .body(toDoListVO)
+                .body(toDoListWithDateVO)
                 .when()
                 .patch(String.format("http://localhost:%s/lists/100", port))
         .then()
@@ -147,12 +147,12 @@ class ListAcceptanceTest {
         when(repository.existsById(100L)).thenReturn(true);
         when(repository.findById(100L)).thenReturn(toDoListOut);
         when(repository.update(any(ToDoList.class))).thenReturn(toDoListOut);
-        ToDoListVO toDoListVO = ToDoListVO.builder()
+        ToDoListWithDateVO toDoListWithDateVO = ToDoListWithDateVO.builder()
                 .name(null)
                 .description("Cosas por hacer antes del 31 de octubre")
                 .build();
         given().contentType(ContentType.JSON)
-                .body(toDoListVO)
+                .body(toDoListWithDateVO)
                 .when()
                 .patch(String.format("http://localhost:%s/lists/100", port))
                 .then()
@@ -165,12 +165,12 @@ class ListAcceptanceTest {
         when(repository.existsById(anyLong())).thenReturn(false);
         when(repository.findById(100L)).thenReturn(toDoListOut);
         when(repository.update(any(ToDoList.class))).thenReturn(toDoListOut);
-        ToDoListVO toDoListVO = ToDoListVO.builder()
+        ToDoListWithDateVO toDoListWithDateVO = ToDoListWithDateVO.builder()
                 .name("Cosas por hacer")
                 .description("Cosas por hacer antes del 31 de octubre")
                 .build();
         given().contentType(ContentType.JSON)
-                .body(toDoListVO)
+                .body(toDoListWithDateVO)
                 .when()
                 .patch(String.format("http://localhost:%s/lists/100", port))
                 .then()
