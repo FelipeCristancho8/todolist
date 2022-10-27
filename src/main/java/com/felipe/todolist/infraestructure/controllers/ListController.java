@@ -49,5 +49,4 @@ public class ListController {
         ToDoListWithDateVO toDoListWithDateVOCreated = listMapper.todoListTotodoListVoWithDate(toDoListCreated);
         return new ResponseEntity<>(toDoListWithDateVOCreated, HttpStatus.OK);
     }
-
 }

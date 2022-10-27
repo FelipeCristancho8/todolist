@@ -13,7 +13,7 @@ import java.sql.Statement;
 import java.util.Objects;
 
 
-public class MySqlListRepository implements ListRepository {
+public class ListRepositoryMySql implements ListRepository {
 
     private static final String SQL_CRETE_LIST = "INSERT INTO todo_list (name, description, user) values (?,?,?)";
     private static final String SQL_DELETE_LIST = "DELETE FROM todo_list WHERE id = ?";
@@ -24,7 +24,7 @@ public class MySqlListRepository implements ListRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public MySqlListRepository(JdbcTemplate jdbcTemplate) {
+    public ListRepositoryMySql(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

@@ -7,12 +7,12 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.util.List;
 
-public class MySqlItemRepository implements ItemRepository {
+public class ItemRepositoryMySql implements ItemRepository {
 
     private static final String SQL_FIND_ITEMS_BY_LIST_ID = "SELECT id, description, finished, created_at as createdAt FROM items where list_id = ?";
     private final JdbcTemplate jdbcTemplate;
 
-    public MySqlItemRepository(JdbcTemplate jdbcTemplate) {
+    public ItemRepositoryMySql(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

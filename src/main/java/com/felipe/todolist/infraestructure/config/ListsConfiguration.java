@@ -5,8 +5,8 @@ import com.felipe.todolist.domain.lists.ListMediatorDefault;
 import com.felipe.todolist.domain.lists.ListValidator;
 import com.felipe.todolist.domain.persistence.ItemRepository;
 import com.felipe.todolist.domain.persistence.ListRepository;
-import com.felipe.todolist.infraestructure.persistence.MySqlItemRepository;
-import com.felipe.todolist.infraestructure.persistence.MySqlListRepository;
+import com.felipe.todolist.infraestructure.persistence.ItemRepositoryMySql;
+import com.felipe.todolist.infraestructure.persistence.ListRepositoryMySql;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -16,12 +16,12 @@ public class ListsConfiguration {
 
     @Bean
     public ListRepository providesListRepositoryInstance(JdbcTemplate jdbcTemplate){
-        return new MySqlListRepository(jdbcTemplate);
+        return new ListRepositoryMySql(jdbcTemplate);
     }
 
     @Bean
     public ItemRepository providesItemRepositoryInstance(JdbcTemplate jdbcTemplate){
-        return new MySqlItemRepository(jdbcTemplate);
+        return new ItemRepositoryMySql(jdbcTemplate);
     }
 
     @Bean

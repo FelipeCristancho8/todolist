@@ -22,8 +22,4 @@ public class StringUtils {
         Matcher mather = pattern.matcher(email);
         return !mather.find();
     }
-
-    public static boolean isNotNull(String value){
-        return value != null;
-    }
 }

@@ -5,19 +5,16 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ToDoListVO {
+public class ItemVO {
 
     private Long id;
-    private String name;
     private String description;
-    private String user;
-    @Builder.Default
-    private List<ItemVO> items = new ArrayList<>();
+    private boolean finished;
+    private LocalDateTime createdAt;
 }
