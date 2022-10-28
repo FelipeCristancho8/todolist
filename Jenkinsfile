@@ -38,7 +38,7 @@ pipeline {
             steps{
                 echo "------------> Sonar <------------"
                 withSonarQubeEnv('SonarProyecto'){
-                    bat 'gradlew sonarqube'
+                    bat 'gradlew sonarqube -Dsonar.branch.name=main'
                 }
            }
         }
