@@ -18,6 +18,19 @@ jacoco {
     toolVersion = "0.8.8"
 }
 
+jacocoTestReport {
+    afterEvaluate {
+        classDirectories.from = files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: [
+                    'com/felipe/todolist/infraestructure/config/**',
+                    'com/felipe/todolist/infraestructure/model/**',
+                    'com/felipe/todolist/domain/model/**',
+                    'com/felipe/todolist/TodoListApp*'
+            ])
+        })
+    }
+}
+
 configurations {
     developmentOnly
     runtimeClasspath {
@@ -37,6 +50,7 @@ repositories {
 
 ext {
     openapiUIVersion = '1.6.11'
+    lombokVersion = '1.18.24'
 
     junitVersion = '5.9.0'
     restAssureVersion = '5.2.0'
@@ -48,6 +62,9 @@ dependencies {
 
     implementation "org.springdoc:springdoc-openapi-ui:${openapiUIVersion}"
 
+    compileOnly "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation "org.junit.jupiter:junit-jupiter-api:${junitVersion}"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
@@ -55,6 +72,17 @@ dependencies {
     testImplementation "io.rest-assured:xml-path:${restAssureVersion}"
     testImplementation "org.mockito:mockito-core:${mockitoVersion}"
     testImplementation "org.mockito:mockito-inline:${mockitoVersion}"
+    testImplementation "io.rest-assured:spring-mock-mvc:${restAssureVersion}"
+
+    // https://mvnrepository.com/artifact/mysql/mysql-connector-java
+    implementation 'mysql:mysql-connector-java:8.0.31'
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-jdbc
+    implementation 'org.springframework.boot:spring-boot-starter-data-jdbc:2.7.5'
+
+    implementation 'org.mapstruct:mapstruct:1.5.2.Final'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.2.Final'
+    testAnnotationProcessor 'org.mapstruct:mapstruct-processor:1.5.2.Final'
+
 }
 
 test {
