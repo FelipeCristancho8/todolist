@@ -20,6 +20,9 @@ jacoco {
 }
 
 jacocoTestReport {
+    reports {
+        xml.enabled true
+    }
     afterEvaluate {
         classDirectories.from = files(classDirectories.files.collect {
             fileTree(dir: it, exclude: [
