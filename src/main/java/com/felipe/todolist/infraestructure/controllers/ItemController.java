@@ -8,10 +8,7 @@ import com.felipe.todolist.infraestructure.model.items.ItemVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class ItemController {
@@ -28,5 +25,13 @@ public class ItemController {
         Item itemCreated = itemMediator.create(itemToCreate, idList);
         ItemVO itemResponse = itemMapper.itemToItemVO(itemCreated);
         return new ResponseEntity<>(itemResponse, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/items/{id}")
+    public ResponseEntity<ItemVO> findById(@PathVariable Long id){
+        Item foundItem = itemMediator.findById(id);
+        ItemVO itemResponse = itemMapper.itemToItemVO(foundItem);
+        return new ResponseEntity<>(itemResponse, HttpStatus.OK);
+
     }
 }

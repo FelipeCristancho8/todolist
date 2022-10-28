@@ -68,7 +68,7 @@ class ListAcceptanceTest {
                 .post(String.format("http://localhost:%s/lists", port))
         .then()
                 .statusCode(201)
-                .body(containsString("100"))
+                .body(containsString("Cosas por hacer"))
                 .body(containsString("date"));
     }
 
@@ -196,6 +196,6 @@ class ListAcceptanceTest {
                 .delete(String.format("http://localhost:%s/lists/100", port))
                 .then()
                 .statusCode(404)
-                .body(containsString("Element not found"));
+                .body(containsString("List not found"));
     }
 }

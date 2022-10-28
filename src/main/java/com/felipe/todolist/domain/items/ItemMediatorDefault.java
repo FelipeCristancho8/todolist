@@ -4,8 +4,11 @@ import com.felipe.todolist.domain.lists.ListMediator;
 import com.felipe.todolist.domain.model.Item;
 import com.felipe.todolist.domain.persistence.ItemRepository;
 
+import java.util.NoSuchElementException;
+
 public class ItemMediatorDefault implements ItemMediator{
 
+    private static final String ITEM_NOT_FOUND = "Item not found";
     private final ItemRepository itemRepository;
     private final ItemValidator itemValidator;
     private final ListMediator listMediator;
@@ -19,7 +22,8 @@ public class ItemMediatorDefault implements ItemMediator{
 
     @Override
     public Item findById(Long id) {
-        return null;
+        validateExistsItemById(id);
+        return this.itemRepository.findById(id);
     }
 
     @Override
@@ -30,13 +34,13 @@ public class ItemMediatorDefault implements ItemMediator{
         return this.itemRepository.save(item, idList);
     }
 
-    @Override
-    public Item update(Item item) {
-        return null;
-    }
 
-    @Override
-    public void deleteById(Long id) {
-
+    private void validateExistsItemById(Long id){
+        StringBuilder details = new StringBuilder();
+        boolean exists = this.itemRepository.existsById(id);
+        if(!exists){
+            details.append(ITEM_NOT_FOUND);
+            throw new NoSuchElementException(details.toString());
+        }
     }
 }

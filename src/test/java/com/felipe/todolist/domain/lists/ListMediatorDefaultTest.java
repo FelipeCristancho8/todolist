@@ -66,9 +66,8 @@ class ListMediatorDefaultTest {
         @ParameterizedTest
         @NullSource
         @ValueSource(strings = {""})
-        void shouldThrowIllegalArgumentExceptionWhenNameIsNull(String arg){
+        void shouldThrowIllegalArgumentExceptionWhenNameIsNullOrEmpty(String arg){
             toDoListIn.setName(arg);
-            ListMediator mediator = new ListMediatorDefault(listRepository, itemRepository, new ListValidator());
 
             IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
                             mediator.create(toDoListIn),
@@ -82,7 +81,6 @@ class ListMediatorDefaultTest {
         @ValueSource(strings = {""})
         void shouldThrowIllegalArgumentExceptionWhenUserIsNull(String arg){
             toDoListIn.setUser(arg);
-            ListMediator mediator = new ListMediatorDefault(listRepository, itemRepository, new ListValidator());
 
             IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
                             mediator.create(toDoListIn),
@@ -94,7 +92,6 @@ class ListMediatorDefaultTest {
         @Test
         void shouldThrowIllegalArgumentExceptionWhenUserFormatIsIncorrect(){
             toDoListIn.setUser("felipecris");
-            ListMediator mediator = new ListMediatorDefault(listRepository, itemRepository, new ListValidator());
 
             IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
                             mediator.create(toDoListIn),
@@ -130,7 +127,7 @@ class ListMediatorDefaultTest {
                     .name("Cosas por hacer")
                     .description("Cosas por hacer antes del 31 de octubre")
                     .user("felipe@gmail.com").build();
-            Item item = Item.builder().id(100L).description("descripcion")
+            Item item = Item.builder().id(100L)
                     .createdAt(LocalDateTime.now()).finished(false).build();
             items = Arrays.asList(item);
         }
@@ -154,8 +151,8 @@ class ListMediatorDefaultTest {
                 mediator.findById(100L),
                 "Se esperaba un NoSuchElementException cuando no existe el ToDoList especificado por su ID pero no fue lanzada");
 
-            assertEquals("Element not found",exception.getMessage());
-            assertTrue(exception.getMessage().contains("Element not found"));
+            assertEquals("List not found",exception.getMessage());
+            assertTrue(exception.getMessage().contains("List not found"));
             verify(listRepository, times(0)).findById(anyLong());
             verify(listRepository).existsById(anyLong());
         }
@@ -191,7 +188,7 @@ class ListMediatorDefaultTest {
                     .description("Cosas por hacer antes del 31 de octubre")
                     .user("felipe@gmail.com").build();
 
-            Item item = Item.builder().id(100L).description("descripcion")
+            Item item = Item.builder().id(100L)
                     .createdAt(LocalDateTime.now()).finished(false).build();
             items = Arrays.asList(item);
             when(repository.save(any(ToDoList.class))).thenReturn(toDoListOut);
@@ -233,8 +230,8 @@ class ListMediatorDefaultTest {
                             mediator.update(toDoListIn),
                     "Se esperaba un NoSuchElementException cuando no existe el ToDoList especificado por su ID pero no fue lanzada");
 
-            assertEquals("Element not found",exception.getMessage());
-            assertTrue(exception.getMessage().contains("Element not found"));
+            assertEquals("List not found",exception.getMessage());
+            assertTrue(exception.getMessage().contains("List not found"));
             verify(repository, times(0)).findById(anyLong());
             verify(repository).existsById(anyLong());
         }
@@ -271,8 +268,8 @@ class ListMediatorDefaultTest {
                             mediator.delete(anyLong()),
                     "Se esperaba un NoSuchElementException cuando no existe el ToDoList especificado por su ID pero no fue lanzada");
 
-            assertEquals("Element not found",exception.getMessage());
-            assertTrue(exception.getMessage().contains("Element not found"));
+            assertEquals("List not found",exception.getMessage());
+            assertTrue(exception.getMessage().contains("List not found"));
             verify(listRepository, times(0)).delete(anyLong());
         }
     }

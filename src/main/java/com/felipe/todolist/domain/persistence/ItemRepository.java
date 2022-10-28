@@ -8,8 +8,6 @@ public interface ItemRepository {
 
     List<Item> findItemsByToDoListId(Long id);
     Item save(Item item, Long idList);
-    void deleteById(Long id);
-    boolean existsById();
-    Item update(Item item);
+    boolean existsById(Long id);
     Item findById(Long id);
 }
