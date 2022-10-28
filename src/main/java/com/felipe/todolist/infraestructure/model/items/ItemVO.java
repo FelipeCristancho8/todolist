@@ -1,4 +1,4 @@
-package com.felipe.todolist.infraestructure.model;
+package com.felipe.todolist.infraestructure.model.items;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 public class ItemVO {
 
     private Long id;
-    private String description;
+    private String name;
     private boolean finished;
     private LocalDateTime createdAt;
 }

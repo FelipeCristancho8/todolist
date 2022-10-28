@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 public class Item implements Serializable {
 
     private Long id;
-    private String description;
+    private String name;
     private boolean finished;
     private LocalDateTime createdAt;
 }

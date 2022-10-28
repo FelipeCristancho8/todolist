@@ -1,8 +1,8 @@
 package com.felipe.todolist.infraestructure.mappers;
 
 import com.felipe.todolist.domain.model.ToDoList;
-import com.felipe.todolist.infraestructure.model.ToDoListBasicVO;
-import com.felipe.todolist.infraestructure.model.ToDoListWithDateVO;
+import com.felipe.todolist.infraestructure.model.lists.ToDoListBasicVO;
+import com.felipe.todolist.infraestructure.model.lists.ToDoListWithDateVO;
 
 import java.time.LocalDate;
 

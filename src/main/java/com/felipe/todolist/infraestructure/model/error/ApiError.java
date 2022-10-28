@@ -1,10 +1,10 @@
-package com.felipe.todolist.infraestructure.model;
+package com.felipe.todolist.infraestructure.model.error;
 
-public class ToDoListError {
+public class ApiError {
     private String message;
     private String[] detail;
 
-    public ToDoListError(String message, String[] detail) {
+    public ApiError(String message, String[] detail) {
         this.message = message;
         this.detail = detail;
     }

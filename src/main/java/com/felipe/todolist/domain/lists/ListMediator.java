@@ -11,4 +11,6 @@ public interface ListMediator {
     ToDoList findById(Long id);
 
     ToDoList update(ToDoList toDoList);
+
+    void validateExistsListById(Long id);
 }

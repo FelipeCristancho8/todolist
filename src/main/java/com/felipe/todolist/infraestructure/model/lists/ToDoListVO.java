@@ -1,5 +1,6 @@
-package com.felipe.todolist.infraestructure.model;
+package com.felipe.todolist.infraestructure.model.lists;
 
+import com.felipe.todolist.infraestructure.model.items.ItemVO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

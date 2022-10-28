@@ -1,5 +1,4 @@
-package com.felipe.todolist.infraestructure.model;
-
+package com.felipe.todolist.infraestructure.model.items;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,12 +7,9 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
-public class ToDoListBasicVO {
+@AllArgsConstructor
+public class ItemBasicVO {
 
     private String name;
-
-    private String description;
-
 }

@@ -15,7 +15,7 @@ import java.util.Objects;
 
 public class ListRepositoryMySql implements ListRepository {
 
-    private static final String SQL_CRETE_LIST = "INSERT INTO todo_list (name, description, user) values (?,?,?)";
+    private static final String SQL_CREATE_LIST = "INSERT INTO todo_list (name, description, user) values (?, ?, ?)";
     private static final String SQL_DELETE_LIST = "DELETE FROM todo_list WHERE id = ?";
     private static final String SQL_EXISTS_BY_ID = "SELECT COUNT(1) FROM todo_list WHERE id = ?";
     private static final String SQL_UPDATE_BY_ID = "UPDATE todo_list SET name = ?, description = ? WHERE id = ?";
@@ -33,7 +33,7 @@ public class ListRepositoryMySql implements ListRepository {
     public ToDoList save(ToDoList toDoList) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
-            PreparedStatement ps = connection.prepareStatement(SQL_CRETE_LIST, Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement ps = connection.prepareStatement(SQL_CREATE_LIST, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, toDoList.getName());
             ps.setString(2, toDoList.getDescription());
             ps.setString(3, toDoList.getUser());
@@ -74,11 +74,9 @@ public class ListRepositoryMySql implements ListRepository {
     }
 
     private ToDoList getSavedTodoList(ToDoList toDoList, Long key){
-        ToDoList toDoListSaved = new ToDoList();
-        toDoListSaved.setId(key);
-        toDoListSaved.setName(toDoList.getName());
-        toDoListSaved.setDescription(toDoList.getDescription());
-        toDoListSaved.setUser(toDoList.getUser());
-        return toDoListSaved;
+        return ToDoList.builder().id(key)
+                .name(toDoList.getName())
+                .description(toDoList.getDescription())
+                .user(toDoList.getUser()).build();
     }
 }

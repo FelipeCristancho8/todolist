@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 public class ListMediatorDefault implements ListMediator {
-    private static final String ELEMENT_NOT_FOUND = "Element not found";
+    private static final String ELEMENT_NOT_FOUND = "List not found";
     private final ListRepository listRepository;
 
     private final ItemRepository itemRepository;
@@ -52,7 +52,7 @@ public class ListMediatorDefault implements ListMediator {
         return this.listRepository.update(preparedToDoList);
     }
 
-    private void validateExistsListById(Long id){
+    public void validateExistsListById(Long id){
         StringBuilder details = new StringBuilder();
         boolean exists = this.listRepository.existsById(id);
         if(!exists){

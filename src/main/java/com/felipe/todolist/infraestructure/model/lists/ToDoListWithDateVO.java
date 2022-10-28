@@ -1,4 +1,4 @@
-package com.felipe.todolist.infraestructure.model;
+package com.felipe.todolist.infraestructure.model.lists;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
