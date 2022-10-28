@@ -30,6 +30,7 @@ pipeline {
             steps{
                 echo "------------> Jacoco <------------"
                 bat 'gradlew jacocoTestReport'
+                bat 'gradlew jacocoTestCoverageVerification'
             }
         }
 
