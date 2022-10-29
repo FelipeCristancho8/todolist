@@ -1,0 +1,26 @@
+version: "3.9"
+services:
+  #nombre_del_servicio(nombre del contenedor)
+  service-todolist:
+    #se indica donde esta el dockerfile que construye esta imagen
+    build:
+      context: .
+    #se mapean los puertos
+    ports:
+      - "8400:8400"
+    #depende del contenedor mongo-db
+    depends_on:
+      - mysqldb
+
+  mysqldb:
+    image: mysql:8.0
+    ports:
+      - "3307:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=a123
+    volumes:
+      - ./init.sql:/data/application/init.sql
+
+volumes:
+  #nombre de volumen
+  dbvol:
