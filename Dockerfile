@@ -1,4 +1,4 @@
-FROM adoptopenjdk/openjdk11:alpine
+FROM openjdk:11
 
 RUN mkdir -p /home/serviceTodolist
 

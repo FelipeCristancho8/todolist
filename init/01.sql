@@ -1,6 +1,3 @@
-CREATE DATABASE IF NOT EXISTS todolist;
-use todolist;
-
 CREATE TABLE IF NOT EXISTS todo_list(
 	id			int 			NOT NULL	auto_increment,
     name		varchar(60)		NOT NULL,

@@ -1,8 +1,4 @@
 spring:
-  datasource:
-    url: jdbc:mysql://mysqldb:3306/todolist?createDatabaseIfNotExist=true&autoReconnect=true&useSSL=false
-    username: root
-    password: a123
   application:
     name: todo-list
 springdoc:
