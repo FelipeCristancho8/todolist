@@ -125,4 +125,111 @@ public class ItemMediatorTest {
             verify(itemRepository).existsById(anyLong());
         }
     }
+
+    @Nested
+    class testForUpdateMethod{
+        @Mock
+        private ItemRepository itemRepository;
+        @Mock
+        private ListMediatorDefault listMediatorDefault;
+
+        private ItemMediatorDefault itemMediator;
+
+        private Item item;
+
+        @BeforeEach
+        void setUp() {
+            openMocks(this);
+            itemMediator = new ItemMediatorDefault(itemRepository, new ItemValidator(), listMediatorDefault);
+            item = Item.builder().id(1L).createdAt(LocalDateTime.now())
+                    .finished(false).name("item 1").build();
+        }
+
+        @Test
+        void shouldUpdateAnItemSuccesfull() {
+            when(itemRepository.existsById(anyLong())).thenReturn(true);
+            when(itemRepository.findById(anyLong())).thenReturn(item);
+            when(itemRepository.update(any(Item.class))).thenReturn(item);
+
+            Item result = itemMediator.update(item);
+
+            assertEquals(1L, result.getId());
+            verify(itemRepository).update(any(Item.class));
+            verify(itemRepository).existsById(anyLong());
+            verify(itemRepository).findById(anyLong());
+        }
+
+        @Test
+        void shouldThrowNoSuchElementExceptionWhenItemNotExists(){
+            when(itemRepository.existsById(anyLong())).thenReturn(false);
+
+            NoSuchElementException exception = assertThrows(NoSuchElementException.class, () ->
+                            itemMediator.update(item),
+                    "Se esperaba un NoSuchElementException cuando no existe el item especificado por su ID pero no fue lanzada");
+
+            assertEquals("Item not found",exception.getMessage());
+            verify(itemRepository, times(0)).update(any(Item.class));
+            verify(itemRepository).existsById(anyLong());
+            verify(itemRepository, times(0)).findById(anyLong());
+        }
+
+        @Test
+        void shouldThrowIllegalArgumentExceptionWhenNameIsNullOrEmpty() {
+            item.setName("");
+
+            IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
+                    itemMediator.update(item),
+                    "Se esperaba un IllegalArgumentException cuando el campo name es nulo pero no fue lanzada");
+
+            assertTrue(exception.getMessage().contains("Name is empty"));
+            verify(itemRepository, times(0)).update(any(Item.class));
+            verify(itemRepository, times(0)).existsById(anyLong());
+            verify(itemRepository, times(0)).findById(anyLong());
+        }
+    }
+
+    @Nested
+    class testForFinishItemMethod{
+        @Mock
+        private ItemRepository itemRepository;
+        @Mock
+        private ListMediatorDefault listMediatorDefault;
+
+        private ItemMediatorDefault itemMediator;
+
+        private Item item;
+
+        @BeforeEach
+        void setUp() {
+            openMocks(this);
+            itemMediator = new ItemMediatorDefault(itemRepository, new ItemValidator(), listMediatorDefault);
+            item = Item.builder().id(1L).createdAt(LocalDateTime.now())
+                    .finished(false).name("item 1").build();
+        }
+
+        @Test
+        void shouldFinishItemSuccesfull() {
+            when(itemRepository.existsById(anyLong())).thenReturn(true);
+            when(itemRepository.finishItem(anyLong())).thenReturn(true);
+
+            boolean result = itemMediator.finishItem(1L);
+
+            assertEquals(true, result);
+            verify(itemRepository).existsById(anyLong());
+            verify(itemRepository).finishItem(anyLong());
+        }
+
+        @Test
+        void shouldThrowNoSuchElementExceptionWhenItemNotExists(){
+            when(itemRepository.existsById(anyLong())).thenReturn(false);
+
+            NoSuchElementException exception = assertThrows(NoSuchElementException.class, () ->
+                            itemMediator.finishItem(1L),
+                    "Se esperaba un NoSuchElementException cuando no existe el item especificado por su ID pero no fue lanzada");
+
+            assertEquals("Item not found",exception.getMessage());
+            verify(itemRepository).existsById(anyLong());
+            verify(itemRepository, times(0)).finishItem(anyLong());
+        }
+    }
 }

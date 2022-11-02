@@ -35,16 +35,6 @@ public class ListMediatorDefault implements ListMediator {
     }
 
     @Override
-    public ToDoList findById(Long id) {
-        validateExistsListById(id);
-        ToDoList foundTodoList = this.listRepository.findById(id);
-        List<Item> itemsOfTodoList = this.itemRepository.findItemsByToDoListId(id);
-        foundTodoList.addItems(itemsOfTodoList);
-
-        return foundTodoList;
-    }
-
-    @Override
     public ToDoList update(ToDoList toDoList) {
         listValidator.validateToUpdate(toDoList);
         ToDoList toUpdate = findById(toDoList.getId());
@@ -52,13 +42,14 @@ public class ListMediatorDefault implements ListMediator {
         return this.listRepository.update(preparedToDoList);
     }
 
-    public void validateExistsListById(Long id){
-        StringBuilder details = new StringBuilder();
-        boolean exists = this.listRepository.existsById(id);
-        if(!exists){
-            details.append(ELEMENT_NOT_FOUND);
-            throw new NoSuchElementException(details.toString());
-        }
+    @Override
+    public ToDoList findById(Long id) {
+        validateExistsListById(id);
+        ToDoList foundTodoList = this.listRepository.findById(id);
+        List<Item> itemsOfTodoList = this.itemRepository.findItemsByToDoListId(id);
+        foundTodoList.addItems(itemsOfTodoList);
+
+        return foundTodoList;
     }
 
     private ToDoList prepareToUpdate(ToDoList toDoListToUpdate, ToDoList toDoListSaved){
@@ -70,5 +61,14 @@ public class ListMediatorDefault implements ListMediator {
         if(toDoListToUpdate.getDescription() != null)
             preparedToDoList.setDescription(toDoListToUpdate.getDescription());
         return preparedToDoList;
+    }
+
+    public void validateExistsListById(Long id){
+        StringBuilder details = new StringBuilder();
+        boolean exists = this.listRepository.existsById(id);
+        if(!exists){
+            details.append(ELEMENT_NOT_FOUND);
+            throw new NoSuchElementException(details.toString());
+        }
     }
 }

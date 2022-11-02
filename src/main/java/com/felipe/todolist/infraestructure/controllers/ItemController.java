@@ -34,4 +34,18 @@ public class ItemController {
         return new ResponseEntity<>(itemResponse, HttpStatus.OK);
 
     }
+
+    @PatchMapping("/items/{id}")
+    public ResponseEntity<ItemVO> update(@RequestBody ItemBasicVO itemBasicVO, @PathVariable Long id){
+        Item itemToUpdate = this.itemMapper.itemBasicVOToItem(itemBasicVO);
+        itemToUpdate.setId(id);
+        Item itemUpdated = this.itemMediator.update(itemToUpdate);
+        ItemVO itemVOCreated = this.itemMapper.itemToItemVO(itemUpdated);
+        return new ResponseEntity<>(itemVOCreated, HttpStatus.OK);
+    }
+
+    @PatchMapping("/items/finish/{id}")
+    public void update(@PathVariable Long id){
+        itemMediator.finishItem(id);
+    }
 }

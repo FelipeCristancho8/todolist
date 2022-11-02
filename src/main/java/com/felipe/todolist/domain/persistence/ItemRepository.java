@@ -10,4 +10,6 @@ public interface ItemRepository {
     Item save(Item item, Long idList);
     boolean existsById(Long id);
     Item findById(Long id);
+    Item update(Item item);
+    boolean finishItem(Long id);
 }

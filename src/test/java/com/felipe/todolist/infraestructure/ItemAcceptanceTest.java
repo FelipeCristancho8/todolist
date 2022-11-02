@@ -26,8 +26,7 @@ import static io.restassured.RestAssured.given;
 import static io.restassured.module.mockmvc.RestAssuredMockMvc.webAppContextSetup;
 import static org.hamcrest.Matchers.containsString;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.openMocks;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -38,12 +37,6 @@ class ItemAcceptanceTest {
 
     @MockBean
     ItemRepository itemRepository;
-
-    @MockBean
-    ItemValidator itemValidator;
-
-    @MockBean
-    ListMediator listMediator;
 
     @MockBean
     ItemMediator itemMediator;
@@ -117,6 +110,19 @@ class ItemAcceptanceTest {
                 .then()
                 .statusCode(404)
                 .body(containsString("Item not found"));
+    }
+
+    @Test
+    void shouldUpdateItemSuccesful() {
+        Mockito.when(itemMediator.update(Mockito.any(Item.class))).thenReturn(item);
+        given().contentType(ContentType.JSON)
+                .body(item)
+        .when()
+                .patch(String.format("http://localhost:%s/items/1", port))
+        .then()
+                .statusCode(200)
+                .body(containsString("item 1"))
+                .body(containsString("false"));
     }
 }
 

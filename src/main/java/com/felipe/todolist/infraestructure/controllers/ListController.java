@@ -45,8 +45,8 @@ public class ListController {
     public ResponseEntity<ToDoListWithDateVO> update(@RequestBody ToDoListBasicVO toDoListBasicVO, @PathVariable Long id){
         ToDoList toDoListToUpdate = listMapper.todoListBasicToTodoList(toDoListBasicVO);
         toDoListToUpdate.setId(id);
-        ToDoList toDoListCreated = listMediator.update(toDoListToUpdate);
-        ToDoListWithDateVO toDoListWithDateVOCreated = listMapper.todoListTotodoListVoWithDate(toDoListCreated);
+        ToDoList toDoListUpdated = listMediator.update(toDoListToUpdate);
+        ToDoListWithDateVO toDoListWithDateVOCreated = listMapper.todoListTotodoListVoWithDate(toDoListUpdated);
         return new ResponseEntity<>(toDoListWithDateVOCreated, HttpStatus.OK);
     }
 }

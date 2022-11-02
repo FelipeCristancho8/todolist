@@ -9,7 +9,7 @@ public class ItemValidator {
     private static final String NAME_IS_EMPTY = "Name is empty";
     private static final int ZERO = 0;
 
-    public void validateToCreate(Item item){
+    public void validateItem(Item item){
         StringBuilder details = new StringBuilder();
         if(isNullOrBlank(item.getName())) details.append(NAME_IS_EMPTY);
 

@@ -21,17 +21,35 @@ public class ItemMediatorDefault implements ItemMediator{
     }
 
     @Override
+    public Item create(Item item, Long idList) {
+        this.itemValidator.validateItem(item);
+        this.listMediator.validateExistsListById(idList);
+
+        return this.itemRepository.save(item, idList);
+    }
+
+    @Override
+    public Item update(Item item) {
+        this.itemValidator.validateItem(item);
+        Item foundItem = this.findById(item.getId());
+        Item preparedItem = this.prepareToUpdate(item, foundItem);
+        return this.itemRepository.update(preparedItem);
+    }
+
+    @Override
     public Item findById(Long id) {
         validateExistsItemById(id);
         return this.itemRepository.findById(id);
     }
 
-    @Override
-    public Item create(Item item, Long idList) {
-        this.itemValidator.validateToCreate(item);
-        this.listMediator.validateExistsListById(idList);
+    private Item prepareToUpdate(Item itemToUpdate, Item itemSaved){
+        Item preparedItem = Item.builder().id(itemSaved.getId())
+                        .finished(itemSaved.isFinished())
+                        .createdAt(itemSaved.getCreatedAt())
+                        .build();
+        preparedItem.setName(itemToUpdate.getName());
 
-        return this.itemRepository.save(item, idList);
+        return preparedItem;
     }
 
 
@@ -42,5 +60,11 @@ public class ItemMediatorDefault implements ItemMediator{
             details.append(ITEM_NOT_FOUND);
             throw new NoSuchElementException(details.toString());
         }
+    }
+
+    @Override
+    public boolean finishItem(Long idItem) {
+        this.validateExistsItemById(idItem);
+        return this.itemRepository.finishItem(idItem);
     }
 }
