@@ -55,7 +55,8 @@ public class ListMediatorDefault implements ListMediator {
     private ToDoList prepareToUpdate(ToDoList toDoListToUpdate, ToDoList toDoListSaved){
         ToDoList preparedToDoList = ToDoList.builder()
                 .id(toDoListSaved.getId())
-                .user(toDoListSaved.getUser()).build();
+                .user(toDoListSaved.getUser())
+                .description(toDoListSaved.getDescription()).build();
         preparedToDoList.setName(toDoListToUpdate.getName());
 
         if(toDoListToUpdate.getDescription() != null)

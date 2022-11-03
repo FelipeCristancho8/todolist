@@ -1,8 +1,6 @@
 package com.felipe.todolist.infraestructure;
 
 import com.felipe.todolist.domain.items.ItemMediator;
-import com.felipe.todolist.domain.items.ItemValidator;
-import com.felipe.todolist.domain.lists.ListMediator;
 import com.felipe.todolist.domain.model.Item;
 import com.felipe.todolist.domain.persistence.ItemRepository;
 import com.felipe.todolist.infraestructure.controllers.ItemController;
@@ -26,7 +24,7 @@ import static io.restassured.RestAssured.given;
 import static io.restassured.module.mockmvc.RestAssuredMockMvc.webAppContextSetup;
 import static org.hamcrest.Matchers.containsString;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.MockitoAnnotations.openMocks;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
